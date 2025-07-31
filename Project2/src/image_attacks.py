@@ -107,31 +107,15 @@ class ImageAttacker:
             save_image(adjusted_image, self._get_output_path(output_path, "bright_contrast", f"a{alpha}_b{beta}"))
         return adjusted_image
 
-    def jpeg_compress(self, image_data, quality, output_path=None):
-        """
-        JPEG 压缩图片。
-        Args:
-            image_data (np.array): 图片数据。
-            quality (int): JPEG 压缩质量 (0-100, 100为最高质量)。
-            output_path (str): 保存路径。
-        Returns:
-            np.array: 压缩后的图片。
-        """
-        # 注意：cv2.imwrite 会根据文件扩展名自动处理压缩
-        # 所以这里我们只改变 output_path 的扩展名为 .jpg
-        if output_path:
-            # 确保保存路径是 .jpg
-            jpeg_output_path = os.path.splitext(output_path)[0] + f"_jpeg{quality}.jpg"
-            cv2.imwrite(jpeg_output_path, image_data, [cv2.IMWRITE_JPEG_QUALITY, quality])
-            print(f"JPEG 压缩图片已保存到: {jpeg_output_path}")
-            # 重新加载压缩后的图片，因为 imwrite 保存后可能无法直接使用原始数据进行后续处理
-            # 尤其是有损压缩
-            return load_image(jpeg_output_path)
-        else:
-            # 如果没有输出路径，则不能直接进行 JPEG 压缩
-            # 因为 JPEG 压缩是有损的，需要保存和重新加载才能体现效果
-            print("警告: JPEG压缩需要指定 output_path 来保存并重新加载以体现压缩效果。")
-            return image_data
+    # 在image_attacks.py中修改
+    def jpeg_compress(self, image, quality, output_path):
+        # 确保输出路径使用.jpg扩展名
+        base_name = os.path.splitext(output_path)[0]
+        jpeg_path = f"{base_name}_jpeg{quality}.jpg"
+
+        # 保存为JPEG
+        cv2.imwrite(jpeg_path, image, [int(cv2.IMWRITE_JPEG_QUALITY), quality])
+        return cv2.imread(jpeg_path)  # 返回加载的图像数据
 
 
 if __name__ == "__main__":

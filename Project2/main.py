@@ -18,7 +18,7 @@ ATTACKED_IMAGES_DIR = 'results/attacked_images/'
 EXTRACTED_WATERMARKS_DIR = 'results/extracted_watermarks/'
 
 WATERMARK_SIZE = (32, 32)  # 原始水印尺寸，必须和生成水印时一致
-EMBED_ALPHA = 5.0  # 水印嵌入强度，需要反复试验找到最佳值
+EMBED_ALPHA = 3.0  # 水印嵌入强度，需要反复试验找到最佳值
 
 
 def main():
@@ -189,13 +189,24 @@ def main():
     # JPEG 压缩
     print("测试 JPEG 压缩...")
     for quality in [90, 75, 50, 25]:
-        attacked_img_path = attacker.jpeg_compress(watermarked_image, quality, base_attack_path)
-        if attacked_img_path is None:
-            print(f"  - JPEG 压缩质量 {quality}: 攻击失败")
+        attacked_img = attacker.jpeg_compress(watermarked_image, quality, base_attack_path)
+        if attacked_img is None:
+            print(f"  - JPEG Q{quality}: 压缩失败")
             continue
 
-        extracted_wm_path = os.path.join(EXTRACTED_WATERMARKS_DIR, f"extracted_wm_jpeg{quality}.png")
-        extracted_wm = extractor.extract_watermark(attacked_img_path, extracted_wm_path)
+        # 1. 先把攻击后的数组保存成临时文件（与原图同名，带后缀）
+        jpeg_attack_path = os.path.join(
+            ATTACKED_IMAGES_DIR,
+            f"fruits_watermarked_jpeg{quality}.jpg"
+        )
+        save_image(attacked_img, jpeg_attack_path)
+
+        # 2. 再用已有接口提取
+        extracted_wm_path = os.path.join(
+            EXTRACTED_WATERMARKS_DIR,
+            f"extracted_wm_jpeg{quality}.png"
+        )
+        extracted_wm = extractor.extract_watermark(jpeg_attack_path, extracted_wm_path)
 
         if extracted_wm is not None:
             ncc = calculate_ncc(original_watermark, extracted_wm)
