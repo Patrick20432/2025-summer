@@ -359,12 +359,12 @@ poseidon2_circom/
 
 ### 2\. **输入文件配置**
 
-你需要一个有效的 `input.json` 文件来为电路提供输入。
+需要一个有效的 `input.json` 文件来为电路提供输入。
 
   * `preimage`: 这是一个**秘密数字**，作为哈希原象。
   * `hash`: 这是 `preimage` 经过 Poseidon2 哈希后的**公开结果**。你必须使用一个外部工具（例如，一个 Python 或 JavaScript 的 Poseidon2 实现）来预先计算这个值，确保其正确性。
 
-请将 `input.json` 的内容替换为你实际的值，例如：
+请将 `input.json` 的内容替换为实际的值，如下：
 
 ```json
 {
@@ -375,7 +375,7 @@ poseidon2_circom/
 
 ### 3\. **执行自动化脚本**
 
-打开你的终端，导航到项目的根目录（`poseidon2_circom/`），然后执行 `prove.sh` 脚本。
+打开终端，导航到项目的根目录（`poseidon2_circom/`），然后执行 `prove.sh` 脚本。
 
 ```bash
 bash prove.sh
@@ -384,7 +384,7 @@ bash prove.sh
 该脚本将自动化完成所有步骤，包括：编译电路、生成 witness、执行 Groth16 可信设置、生成零知识证明以及验证证明的有效性。
 
 **预期结果**:
-如果所有步骤都成功执行，你将在终端的末尾看到以下输出，表明证明已成功生成并验证：
+如果所有步骤都成功执行，将可在终端的末尾看到以下输出，表明证明已成功生成并验证：
 
 ```
 [INFO] snarkjs: proof is valid
@@ -468,7 +468,7 @@ SM3是中国国家密码管理局发布的密码杂凑函数，输出256位哈�
 
 ## 三.协议流程图
 
-以下为SM3哈希及Merkle树构建的主要流程示意图（采用Mermaid语法）：
+以下为SM3哈希及Merkle树构建的主要流程示意图：
 
 ```mermaid
 flowchart TD
@@ -610,7 +610,7 @@ sequenceDiagram
 
 ## 五.安装与运行
 
-### 1️.环境依赖
+### 1.环境依赖
 本项目仅依赖 Python 标准库：
 - `hashlib`
 - `secrets`
@@ -772,26 +772,26 @@ sequenceDiagram
 
 ## 五.使用方法
 
-### 1️.克隆项目
+### 1.克隆项目
 
 ```
 git clone https://github.com/Patrick20432/2025-summer.git
 cd Project6
 ```
-### 2️.安装依赖
+### 2.安装依赖
 
 ```
 pip install ecdsa
 ```
 > 项目使用纯 Python 实现的 Paillier，因此无需额外加密库。
 
-### 3️.运行实验
+### 3.运行实验
 
 ```
 python run_protocol.py
 ```
 
-### 4️.预期输出
+### 4.预期输出
 
 ```
 === DDH Private Intersection-Sum Protocol ===
